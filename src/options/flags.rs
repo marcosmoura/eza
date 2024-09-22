@@ -24,6 +24,7 @@ pub static WIDTH:           Arg = Arg { short: Some(b'w'), long: "width",       
 pub static SPACE_BETWEEN:   Arg = Arg { short: None,       long: "space-between-columns",   takes_value: TakesValue::Necessary(None)};
 pub static NO_QUOTES:       Arg = Arg { short: None,       long: "no-quotes",               takes_value: TakesValue::Forbidden };
 pub static ABSOLUTE:        Arg = Arg { short: None,       long: "absolute",                takes_value: TakesValue::Optional(Some(ABSOLUTE_MODES), "on") };
+pub static FOLLOW_LINKS:    Arg = Arg { short: None,       long: "follow-symlinks",         takes_value: TakesValue::Forbidden };
 const ABSOLUTE_MODES: &[&str] = &["on", "follow", "off"];
 
 pub static COLOR:  Arg = Arg { short: None, long: "color",  takes_value: TakesValue::Optional(Some(WHEN), "auto") };
