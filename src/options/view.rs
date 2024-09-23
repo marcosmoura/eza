@@ -35,6 +35,7 @@ impl View {
             deref_links,
             follow_links,
             total_size,
+            space_between_columns,
         })
     }
 }
@@ -224,11 +225,15 @@ impl SpacingBetweenColumns {
         if let Some(space_between) = matches.get(&flags::SPACE_BETWEEN)? {
             let arg_str = space_between.to_string_lossy();
             match arg_str.parse() {
-                Ok(0) => Ok(SpacingBetweenColumns::Set(1)),
-                Ok(w) if w > 0 => Ok(SpacingBetweenColumns::Set(w)),
-                Ok(_) => {
-                    let source = NumberSource::Arg(&flags::SPACE_BETWEEN);
-                    Err(OptionsError::NegativeNumber(&flags::SPACE_BETWEEN, source))
+                Ok(w) => {
+                    if w == 0 {
+                        Ok(Self::Set(1))
+                    } else if w > 0 {
+                        Ok(Self::Set(w))
+                    } else {
+                        let source = NumberSource::Arg(&flags::SPACE_BETWEEN);
+                        Err(OptionsError::NegativeNumber(&flags::SPACE_BETWEEN, source))
+                    }
                 }
                 Err(e) => {
                     let source = NumberSource::Arg(&flags::SPACE_BETWEEN);
