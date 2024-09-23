@@ -10,7 +10,8 @@ commands:
     - --help
   ? - -v
     - --version
-  ? - -1 # Display Options
+  # Display Options
+  ? - -1
     - --oneline
   ? - -l
     - --long
@@ -68,6 +69,11 @@ commands:
       - 15
       - 30
       - 200
+  ? - --space-between-columns
+  : values:
+      - 1
+      - 5
+      - 10
   ? - null
     - --smart-group
   ? - -a # Filtering and Sorting Options
