@@ -68,11 +68,6 @@ commands:
       - 15
       - 30
       - 200
-  ? - --space-between-columns
-  : values:
-      - 1
-      - 5
-      - 10
   ? - null
     - --smart-group
 
