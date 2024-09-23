@@ -94,6 +94,7 @@ eza’s options are almost, but not quite, entirely unlike `ls`’s. Quick overv
 - **--hyperlink**: display entries as hyperlinks
 - **--absolute=(mode)**: display entries with their absolute path (on, follow, off)
 - **-w**, **--width=(columns)**: set screen width in columns
+- **--space-between-columns=(columns)**: set the number of spaces between columns
 
 </details>
 
@@ -162,15 +163,14 @@ Some of the options accept parameters:
 - Valid time fields are **modified**, **changed**, **accessed**, and **created**.
 - Valid time styles are **default**, **iso**, **long-iso**, **full-iso**, and **relative**.
 
-
-
 See the `man` pages for further documentation of usage. They are available
+
 - online [in the repo](https://github.com/eza-community/eza/tree/main/man)
 - in your terminal via `man eza`, as of version [`[0.18.13] - 2024-04-25`](https://github.com/eza-community/eza/blob/main/CHANGELOG.md#01813---2024-04-25)
 </details>
 
-
 ## Custom Themes
+
 <details>
 <summary>Click to expand</summary>
 
@@ -180,22 +180,22 @@ for different file types and extensions. Any existing environment variables set 
 precedence for backwards compatibility.
 
 #### **New** Pre-made themes
+
 Check out the themes available in the official [eza-themes](https://github.com/eza-community/eza-themes) repository, or contribute your own.
 
-An example theme file is available in `docs/theme.yml`, and needs to either be placed in a directory specified by the 
+An example theme file is available in `docs/theme.yml`, and needs to either be placed in a directory specified by the
 environment variable `EZA_CONFIG_DIR`, or will looked for by default in `$XDG_CONFIG_HOME/eza`.
 
 Full details are available on the [man page](https://github.com/eza-community/eza/tree/main/man/eza_colors-explanation.5.md) and an example theme file is included [here](https://github.com/eza-community/eza/tree/main/docs/theme.yml)
 
 </details>
 
-
 # Hacking on eza
 
-If you wanna contribute to eza, firstly, you're expected to follow our 
-[code of conduct](https://github.com/eza-community/eza/blob/main/CODE_OF_CONDUCT.md). 
+If you wanna contribute to eza, firstly, you're expected to follow our
+[code of conduct](https://github.com/eza-community/eza/blob/main/CODE_OF_CONDUCT.md).
 After having understood the code of conduct, you can have a look at our
-[CONTRIBUTING.md](https://github.com/eza-community/eza/blob/main/CONTRIBUTING.md) 
+[CONTRIBUTING.md](https://github.com/eza-community/eza/blob/main/CONTRIBUTING.md)
 for more info about actual hacking.
 
 [![Star History Chart](https://api.star-history.com/svg?repos=eza-community/eza&type=Date)](https://star-history.com/#eza-community/eza&Date)

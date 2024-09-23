@@ -4,15 +4,11 @@
 <!-- To generate the roff version, run `just man`, -->
 <!-- and the man page will appear in the ‘target’ directory. -->
 
-
-NAME
-====
+# NAME
 
 eza — a modern replacement for ls
 
-
-SYNOPSIS
-========
+# SYNOPSIS
 
 `eza [options] [files...]`
 
@@ -21,9 +17,7 @@ It uses colours for information by default, helping you distinguish between many
 
 It also has extra features not present in the original `ls`, such as viewing the Git status for a directory, or recursing into directories with a tree view.
 
-
-EXAMPLES
-========
+# EXAMPLES
 
 `eza`
 : Lists the contents of the current directory in a grid.
@@ -37,9 +31,7 @@ EXAMPLES
 `eza --long --tree --level=3`
 : Displays a tree of files, three levels deep, as well as each file’s metadata.
 
-
-META OPTIONS
-===============
+# META OPTIONS
 
 `--help`
 : Show list of command-line options.
@@ -47,8 +39,7 @@ META OPTIONS
 `-v`, `--version`
 : Show version of eza.
 
-DISPLAY OPTIONS
-===============
+# DISPLAY OPTIONS
 
 `-1`, `--oneline`
 : Display one entry per line.
@@ -116,14 +107,16 @@ The default value is ‘`automatic`’.
 `-w`, `--width=COLS`
 : Set screen width in columns.
 
+`--space-between-columns=COLS`
+: Set the number of spaces between columns in grid view.
+
 Valid options are `none`, `absolute` or `relative`.
 The default value is `none`
 
 `absolute` mode highlights based on file modification time relative to the past year.
 `relative` mode highlights based on file modification time in relation to other files. `none` disables highlighting.
 
-FILTERING AND SORTING OPTIONS
-=============================
+# FILTERING AND SORTING OPTIONS
 
 `-a`, `--all`
 : Show hidden and “dot” files.
@@ -171,8 +164,7 @@ Sort fields starting with a capital letter will sort uppercase before lowercase:
 `--no-symlinks`
 : Do not show symbolic links
 
-LONG VIEW OPTIONS
-=================
+# LONG VIEW OPTIONS
 
 These options are available when running with `--long` (`-l`):
 
@@ -210,7 +202,7 @@ These options are available when running with `--long` (`-l`):
 : List numeric user and group IDs.
 
 `-O`, `--flags`
-: List file flags on Mac and BSD systems and file attributes on Windows systems.  By default, Windows attributes are displayed in a long form.  To display in attributes as single character set the environment variable `EZA_WINDOWS_ATTRIBUTES=short`.  On BSD systems see chflags(1) for a list of file flags and their meanings.
+: List file flags on Mac and BSD systems and file attributes on Windows systems. By default, Windows attributes are displayed in a long form. To display in attributes as single character set the environment variable `EZA_WINDOWS_ATTRIBUTES=short`. On BSD systems see chflags(1) for a list of file flags and their meanings.
 
 `-S`, `--blocksize`
 : List each file’s size of allocated file system blocks.
@@ -225,9 +217,9 @@ These options are available when running with `--long` (`-l`):
 
 : Valid timestamp styles are ‘`default`’, ‘`iso`’, ‘`long-iso`’, ‘`full-iso`’, ‘`relative`’, or a custom style ‘`+<FORMAT>`’ (e.g., ‘`+%Y-%m-%d %H:%M`’ => ‘`2023-09-30 13:00`’).
 
-`<FORMAT>` should be a chrono format string.  For details on the chrono format syntax, please read: https://docs.rs/chrono/latest/chrono/format/strftime/index.html .
+`<FORMAT>` should be a chrono format string. For details on the chrono format syntax, please read: https://docs.rs/chrono/latest/chrono/format/strftime/index.html .
 
-Alternatively, `<FORMAT>` can be a two line string, the first line will be used for non-recent files and the second for recent files.  E.g., if `<FORMAT>` is "`%Y-%m-%d %H<newline>--%m-%d %H:%M`", non-recent files => "`2022-12-30 13`", recent files => "`--09-30 13:34`".
+Alternatively, `<FORMAT>` can be a two line string, the first line will be used for non-recent files and the second for recent files. E.g., if `<FORMAT>` is "`%Y-%m-%d %H<newline>--%m-%d %H:%M`", non-recent files => "`2022-12-30 13`", recent files => "`--09-30 13:34`".
 
 `--total-size`
 : Show recursive directory size (unix only).
@@ -262,7 +254,7 @@ Alternatively, `<FORMAT>` can be a two line string, the first line will be used 
 `-Z`, `--context`
 : List each file's security context.
 
-`--git`  [if eza was built with git support]
+`--git` [if eza was built with git support]
 : List each file’s Git status, if tracked.
 This adds a two-character column indicating the staged and unstaged statuses respectively. The status character can be ‘`-`’ for not modified, ‘`M`’ for a modified file, ‘`N`’ for a new file, ‘`D`’ for deleted, ‘`R`’ for renamed, ‘`T`’ for type-change, ‘`I`’ for ignored, and ‘`U`’ for conflicted. Directories will be shown to have the status of their contents, which is how ‘deleted’ is possible if a directory contains a file that has a certain status, it will be shown to have that status.
 
@@ -274,13 +266,10 @@ Symbols shown are `|`= clean, `+`= dirty, and `~`= for unknown.
 : List if a directory is a Git repository, but not its status.
 All Git repository directories will be shown as (themed) `-` without status indicated.
 
-
 `--no-git`
 : Don't show Git status (always overrides `--git`, `--git-repos`, `--git-repos-no-status`)
 
-
-ENVIRONMENT VARIABLES
-=====================
+# ENVIRONMENT VARIABLES
 
 If an environment variable prefixed with `EZA_` is not set, for backward compatibility, it will default to its counterpart starting with `EXA_`.
 
@@ -334,13 +323,14 @@ For more information on the format of these environment variables, see the [eza_
 Overrides any `--git` or `--git-repos` argument
 
 ## `EZA_MIN_LUMINANCE`
+
 Specifies the minimum luminance to use when color-scale is active. It's value can be between -100 to 100.
 
 ## `EZA_ICONS_AUTO`
 
 If set, automates the same behavior as using `--icons` or `--icons=auto`. Useful for if you always want to have icons enabled.
 
-Any explicit use of the `--icons=WHEN` flag overrides this behavior. 
+Any explicit use of the `--icons=WHEN` flag overrides this behavior.
 
 ## `EZA_STDIN_SEPARATOR`
 
@@ -350,8 +340,7 @@ Specifies the separator to use when file names are piped from stdin. Defaults to
 
 Specifies the directory where eza will look for its configuration and theme files. Defaults to `$XDG_CONFIG_HOME/eza` or `$HOME/.config/eza` if `XDG_CONFIG_HOME` is not set.
 
-EXIT STATUSES
-=============
+# EXIT STATUSES
 
 0
 : If everything goes OK.
@@ -362,9 +351,7 @@ EXIT STATUSES
 3
 : If there was a problem with the command-line arguments.
 
-
-AUTHOR
-======
+# AUTHOR
 
 eza is maintained by Christina Sørensen and many other contributors.
 
@@ -373,8 +360,7 @@ eza is maintained by Christina Sørensen and many other contributors.
 
 Our infinite thanks to Benjamin ‘ogham’ Sago and all the other contributors of exa, from which eza was forked.
 
-SEE ALSO
-========
+# SEE ALSO
 
 - [eza_colors.5.md](eza_colors.5.md)
 - [eza_colors-explanation.5.md](eza_colors-explanation.5.md)

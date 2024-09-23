@@ -28,6 +28,7 @@ DISPLAY OPTIONS
   --hyperlink                display entries as hyperlinks
   --absolute                 display entries with their absolute path (on, follow, off)
   -w, --width COLS           set screen width in columns
+  --space-between-columns    set the space between columns
 
 
 FILTERING AND SORTING OPTIONS
@@ -78,7 +79,7 @@ LONG VIEW OPTIONS
   --no-filesize              suppress the filesize field
   --no-user                  suppress the user field
   --no-time                  suppress the time field
-  --stdin                    read file names from stdin, one per line or other separator 
+  --stdin                    read file names from stdin, one per line or other separator
                              specified in environment";
 
 static GIT_VIEW_HELP: &str = "  \

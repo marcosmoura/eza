@@ -7,35 +7,25 @@ commands:
   # Meta options
   ? - null
     - --help
-  :
   ? - -v
     - --version
-  :
   # Display Options
   ? - -1
     - --oneline
-  :
   ? - -l
     - --long
-  :
   ? - -G
     - --grid
-  :
   ? - -x
     - --across
-  :
   ? - -R
     - --recurse
-  :
   ? - -T
     - --tree
-  :
   ? - -X
     - --dereference
-  :
   ? - -F
     - --classify
-  :
   ? - -F
     - --classify
   : values:
@@ -56,7 +46,6 @@ commands:
       - never
   ? - null
     - --icons
-  :
   ? - null
     - --icons
   : values:
@@ -79,6 +68,11 @@ commands:
       - 15
       - 30
       - 200
+  ? - --space-between-columns
+  : values:
+      - 1
+      - 5
+      - 10
   ? - null
     - --smart-group
 
