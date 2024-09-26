@@ -4,13 +4,11 @@ binary: eza
 gen_binary: target/debug/eza
 args: tests/test_dir
 commands:
-  # Meta options
-  ? - null
+  ? - null # Meta options
     - --help
   ? - -v
     - --version
-  # Display Options
-  ? - -1
+  ? - -1 # Display Options
     - --oneline
   ? - -l
     - --long
@@ -70,9 +68,7 @@ commands:
       - 200
   ? - null
     - --smart-group
-
-  # Filtering and Sorting Options
-  ? - -a
+  ? - -a # Filtering and Sorting Options
     - --all
   ? - -A
     - --almost-all
@@ -124,17 +120,14 @@ commands:
     - --only-files
   ? - -f
     - --only-files
-  ? # TODO: add more globs
-    - -I
+  ? - -I # TODO: add more globs
     - --ignore-glob
   : prefix: -l
     values:
       - "*.toml"
   ? - null
     - --git-ignore
-
-  # Long View Options
-  ? - -b
+  ? - -b # Long View Options
     - --binary
   ? - -B
     - --bytes
