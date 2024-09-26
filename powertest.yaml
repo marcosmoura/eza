@@ -10,8 +10,7 @@ commands:
     - --help
   ? - -v
     - --version
-  # Display Options
-  ? - -1
+  ? - -1 # Display Options
     - --oneline
   ? - -l
     - --long

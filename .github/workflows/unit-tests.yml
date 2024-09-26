@@ -9,16 +9,16 @@ on:
   push:
     branches: [main]
     paths:
-      - '.github/workflows/unit-tests.yml'
-      - 'src/**'
-      - 'Cargo.*'
+      - ".github/workflows/unit-tests.yml"
+      - "src/**"
+      - "Cargo.*"
       - build.rs
   pull_request:
     branches: [main]
     paths:
-      - '.github/workflows/unit-tests.yml'
-      - 'src/**'
-      - 'Cargo.*'
+      - ".github/workflows/unit-tests.yml"
+      - "src/**"
+      - "Cargo.*"
       - build.rs
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.head_ref || github.sha }}
@@ -48,7 +48,6 @@ jobs:
       - name: Run rustfmt checks
         run: cargo fmt --check
       - name: Run clippy lints
-        if: ${{ matrix.os != 'windows-latest' }}
         run: cargo clippy -- -D warnings
       - name: Run unit tests
         run: cargo hack test
