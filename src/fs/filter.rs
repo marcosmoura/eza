@@ -59,6 +59,14 @@ pub enum FileFilterFlags {
 /// performing the comparison.
 #[derive(PartialEq, Eq, Debug, Clone)]
 pub struct FileFilter {
+    /// Whether directories should be listed first, and other types of file
+    /// second. Some users prefer it like this.
+    pub list_dirs_first: bool,
+
+    /// Whether directories should be listed as the last items, after other
+    /// types of file. Some users prefer it like this.
+    pub list_dirs_last: bool,
+
     /// The metadata field to sort by.
     pub sort_field: SortField,
 
@@ -151,7 +159,7 @@ impl FileFilter {
                     .points_to_directory()
                     .cmp(&a.as_ref().points_to_directory())
             });
-        } else if self.flags.contains(&FileFilterFlags::ListDirsLast) {
+        } else if self.list_dirs_last {
             files.sort_by(|a, b| {
                 a.as_ref()
                     .points_to_directory()
