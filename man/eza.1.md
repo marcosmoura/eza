@@ -357,6 +357,9 @@ Specifies the directory where eza will look for its configuration and theme file
 3
 : If there was a problem with the command-line arguments.
 
+13
+: If permission is denied to access a path.
+
 # AUTHOR
 
 eza is maintained by Christina Sørensen and many other contributors.
