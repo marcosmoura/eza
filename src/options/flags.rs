@@ -12,18 +12,19 @@ pub static VERSION: Arg = Arg { short: Some(b'v'), long: "version",  takes_value
 pub static HELP:    Arg = Arg { short: Some(b'?'), long: "help",     takes_value: TakesValue::Forbidden };
 
 // display options
-pub static ONE_LINE:     Arg = Arg { short: Some(b'1'), long: "oneline",         takes_value: TakesValue::Forbidden };
-pub static LONG:         Arg = Arg { short: Some(b'l'), long: "long",            takes_value: TakesValue::Forbidden };
-pub static GRID:         Arg = Arg { short: Some(b'G'), long: "grid",            takes_value: TakesValue::Forbidden };
-pub static ACROSS:       Arg = Arg { short: Some(b'x'), long: "across",          takes_value: TakesValue::Forbidden };
-pub static RECURSE:      Arg = Arg { short: Some(b'R'), long: "recurse",         takes_value: TakesValue::Forbidden };
-pub static TREE:         Arg = Arg { short: Some(b'T'), long: "tree",            takes_value: TakesValue::Forbidden };
-pub static CLASSIFY:     Arg = Arg { short: Some(b'F'), long: "classify",        takes_value: TakesValue::Optional(Some(WHEN), "auto") };
-pub static DEREF_LINKS:  Arg = Arg { short: Some(b'X'), long: "dereference",     takes_value: TakesValue::Forbidden };
-pub static WIDTH:        Arg = Arg { short: Some(b'w'), long: "width",           takes_value: TakesValue::Necessary(None) };
-pub static NO_QUOTES:    Arg = Arg { short: None,       long: "no-quotes",       takes_value: TakesValue::Forbidden };
-pub static ABSOLUTE:     Arg = Arg { short: None,       long: "absolute",        takes_value: TakesValue::Optional(Some(ABSOLUTE_MODES), "on") };
-pub static FOLLOW_LINKS: Arg = Arg { short: None,       long: "follow-symlinks", takes_value: TakesValue::Forbidden };
+pub static ONE_LINE:        Arg = Arg { short: Some(b'1'), long: "oneline",                 takes_value: TakesValue::Forbidden };
+pub static LONG:            Arg = Arg { short: Some(b'l'), long: "long",                    takes_value: TakesValue::Forbidden };
+pub static GRID:            Arg = Arg { short: Some(b'G'), long: "grid",                    takes_value: TakesValue::Forbidden };
+pub static ACROSS:          Arg = Arg { short: Some(b'x'), long: "across",                  takes_value: TakesValue::Forbidden };
+pub static RECURSE:         Arg = Arg { short: Some(b'R'), long: "recurse",                 takes_value: TakesValue::Forbidden };
+pub static TREE:            Arg = Arg { short: Some(b'T'), long: "tree",                    takes_value: TakesValue::Forbidden };
+pub static CLASSIFY:        Arg = Arg { short: Some(b'F'), long: "classify",                takes_value: TakesValue::Optional(Some(WHEN), "auto") };
+pub static DEREF_LINKS:     Arg = Arg { short: Some(b'X'), long: "dereference",             takes_value: TakesValue::Forbidden };
+pub static WIDTH:           Arg = Arg { short: Some(b'w'), long: "width",                   takes_value: TakesValue::Necessary(None) };
+pub static NO_QUOTES:       Arg = Arg { short: None,       long: "no-quotes",               takes_value: TakesValue::Forbidden };
+pub static ABSOLUTE:        Arg = Arg { short: None,       long: "absolute",                takes_value: TakesValue::Optional(Some(ABSOLUTE_MODES), "on") };
+pub static FOLLOW_LINKS:    Arg = Arg { short: None,       long: "follow-symlinks",         takes_value: TakesValue::Forbidden };
+pub static SPACE_BETWEEN:   Arg = Arg { short: None,       long: "space-between-columns",   takes_value: TakesValue::Necessary(None)};
 const ABSOLUTE_MODES: &[&str] = &["on", "follow", "off"];
 
 pub static COLOR:  Arg = Arg { short: None, long: "color",  takes_value: TakesValue::Optional(Some(WHEN), "auto") };
@@ -101,7 +102,7 @@ pub static ALL_ARGS: Args = Args(&[
 
     &ONE_LINE, &LONG, &GRID, &ACROSS, &RECURSE, &TREE, &CLASSIFY, &DEREF_LINKS, &FOLLOW_LINKS,
     &COLOR, &COLOUR, &COLOR_SCALE, &COLOUR_SCALE, &COLOR_SCALE_MODE, &COLOUR_SCALE_MODE,
-    &WIDTH, &NO_QUOTES, &ABSOLUTE,
+    &WIDTH, &NO_QUOTES, &ABSOLUTE, &SPACE_BETWEEN,
 
     &ALL, &ALMOST_ALL, &LIST_DIRS, &LEVEL, &REVERSE, &SORT, &DIRS_FIRST, &DIRS_LAST,
     &IGNORE_GLOB, &GIT_IGNORE, &ONLY_DIRS, &ONLY_FILES,

@@ -29,6 +29,7 @@ use crate::output::time::TimeFormat;
 use crate::theme::Theme;
 
 use super::color_scale::ColorScaleMode;
+use super::SpacingBetweenColumns;
 
 /// Options for displaying a table.
 #[derive(PartialEq, Eq, Debug)]
@@ -39,6 +40,7 @@ pub struct Options {
     pub group_format: GroupFormat,
     pub flags_format: FlagsFormat,
     pub columns: Columns,
+    pub space_between_columns: SpacingBetweenColumns,
 }
 
 /// Extra columns to display in the table.
@@ -413,6 +415,7 @@ pub struct Table<'a> {
     group_format: GroupFormat,
     flags_format: FlagsFormat,
     git: Option<&'a GitCache>,
+    space_between_columns: SpacingBetweenColumns,
 }
 
 #[derive(Clone)]
@@ -446,6 +449,7 @@ impl<'a> Table<'a> {
             #[cfg(unix)]
             group_format: options.group_format,
             flags_format: options.flags_format,
+            space_between_columns: options.space_between_columns,
         }
     }
 
@@ -610,7 +614,7 @@ impl<'a> Table<'a> {
                 }
             }
 
-            cell.add_spaces(1);
+            cell.add_spaces(self.space_between_columns.actual_spaces());
         }
 
         cell
