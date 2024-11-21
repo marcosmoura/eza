@@ -4,160 +4,14 @@ SPDX-FileContributor: Christina Sørensen
 
 SPDX-License-Identifier: EUPL-1.2
 -->
+
 # Changelog
-
-## [0.20.16] - 2025-01-09
-
-### Features
-
-- Add brew icon for brewfile and brewfile.lock.json
-
-### Build
-
-- Update flake inputs 2025-01-08
-- Update cargo inputs 2025-01-08
-- Bump git2 from 0.19.0 to 0.20.0
-
-## [0.20.15] - 2025-01-02
-
-### Features
-
-- Add icons from nerd fonts 3.3.0 release & more
-- Add new icons, extensive list
-
-### Miscellaneous Tasks
-
-- Eza v0.20.15 changelogs, version bump
-
-### Build
-
-- We switch to our own fork of natord
-
-### Ci
-
-- Bump FreeBSD / NetBSD versions.
-
-## [0.20.14] - 2024-12-26
-
-### Bug Fixes
-
-- ...those pesky workflow targets
-- Remove separate bsd tests
-- Remove audit workflow
-
-### Features
-
-- Audit checks in main CI
-
-### Miscellaneous Tasks
-
-- Eza v0.20.14 changelogs, version bump
-
-### Refactor
-
-- Move eza, trycmd packages
-- Move BSD unit tests to main flow
-
-### Styling
-
-- Format workflows
-- Ci checks formatted
-
-### Build
-
-- Cargo 2024-12-25
-
-### Ci
-
-- Simplify
-- Let's just always run em'
-- Only run big checks on PRs to main
-- Faster flake checks... maybe?
-- Flakes on latest ubuntu
-- Only do no-merge-commits on PR
-
-## [0.20.13] - 2024-12-18
-
-### Bug Fixes
-
-- Pre-commit-hooks.nix trying to be too clever
-- Remove stray description (originally from `--decay-mode`)
-
-### Miscellaneous Tasks
-
-- Eza v0.20.13 changelogs, version bump
-
-### Build
-
-- Update crate deps Mon Dec 16
-- Update flake deps Mon Dec 16
-
-### Ci
-
-- Update to PRESENT DAY, PRESENT TIME
-
-## [0.20.12] - 2024-12-11
-
-### Bug Fixes
-
-- Add unicode-3.0 license
-- Use safe terminal_size_of
-- Use terminal_size_of with borrowed raw handle
-
-### Features
-
-- Move MSRV to 1.74 and deep bump cargo deps
-- Add Gleam lang icon
-
-### Miscellaneous Tasks
-
-- Eza v0.20.12 changelogs, version bump
-
-### Testing
-
-- Regen for 1.74
-
-### Build
-
-- Bump terminal_size from 0.3.0 to 0.4.1
-
-### Ci
-
-- Openbsd 7.4 -> 7.6
-
-## [0.20.11] - 2024-12-05
-
-### Bug Fixes
-
-- Bump libc from 0.2.165 to 0.2.167
-
-### Miscellaneous Tasks
-
-- Eza v0.20.11 changelogs, version bump
-
-## [0.20.10] - 2024-11-28
-
-### Bug Fixes
-
-- People dislike the phrasing "maintained" on hackernews
-
-### Miscellaneous Tasks
-
-- Eza v0.20.10 changelogs, version bump
-
-### Build
-
-- Bump libc from 0.2.164 to 0.2.165
 
 ## [0.20.9] - 2024-11-21
 
 ### Bug Fixes
 
 - Remove newline after doc comment of `regen` recipe
-
-### Miscellaneous Tasks
-
-- Eza v0.20.9 changelogs, version bump
 
 ### Refactor
 
@@ -578,7 +432,7 @@ SPDX-License-Identifier: EUPL-1.2
 
 ### Bug Fixes
 
-- Fix missing line breaks in _eza
+- Fix missing line breaks in \_eza
 
 ### Miscellaneous Tasks
 
@@ -1501,7 +1355,7 @@ SPDX-License-Identifier: EUPL-1.2
 ### Features
 
 - Add EXA_COLOR bindings for un-themed items
-- Add EZA_ environment variables with fallback to EXA_
+- Add EZA* environment variables with fallback to EXA*
 - Listing files only using '--only-files' flag
 - Add rustfmt check to unit-tests workflow
 
@@ -1931,7 +1785,7 @@ SPDX-License-Identifier: EUPL-1.2
 
 ### Bug Fixes
 
-- TextCell building of detailed grid view for  hyperlink and icon options
+- TextCell building of detailed grid view for hyperlink and icon options
 - Block's Colours trait as for file sizes
 - --blocksize completion, new description
 - Option.views unit tests use --blocksize
@@ -1983,7 +1837,7 @@ SPDX-License-Identifier: EUPL-1.2
 - Add test runner sketch
 - Add test runner to justfile
 - Add out.gif to .gitignore
-- Add run_tests  NAME arg
+- Add run_tests NAME arg
 - Add reference main.txt
 - Add gen_test
 - Fix typo
@@ -2234,10 +2088,10 @@ SPDX-License-Identifier: EUPL-1.2
 - Add selinux contexts support
 - Add -o shorcut to --octal-permissions
 - Hyperlink flag
-- Update Cargo.toml to optimise binaries for size 
-- Add git-status-.* completions
-- Zsh add git-status-.* completions
-- Add git-status-.* completions
+- Update Cargo.toml to optimise binaries for size
+- Add git-status-.\* completions
+- Zsh add git-status-.\* completions
+- Add git-status-.\* completions
 - Add Zig module icons
 - Add icon for Vagrantfile
 - Add git icon to .gitignore_global file
@@ -2370,5 +2224,3 @@ SPDX-License-Identifier: EUPL-1.2
 ### Vagrant
 
 - Update apt before installing
-
-
