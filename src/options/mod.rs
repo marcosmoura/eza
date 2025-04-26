@@ -90,7 +90,7 @@ mod error;
 #[rustfmt::skip]
 mod flags;
 mod theme;
-mod view;
+pub mod view;
 
 pub use self::error::{NumberSource, OptionsError};
 

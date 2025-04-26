@@ -16,7 +16,7 @@ use crate::output::table::{
     Columns, FlagsFormat, GroupFormat, Options as TableOptions, SizeFormat, TimeTypes, UserFormat,
 };
 use crate::output::time::TimeFormat;
-use crate::output::{details, grid, Mode, TerminalWidth, View};
+use crate::output::{details, grid, Mode, SpacingBetweenColumns, TerminalWidth, View};
 
 impl View {
     pub fn deduce<V: Vars>(matches: &MatchedFlags<'_>, vars: &V) -> Result<Self, OptionsError> {
@@ -26,9 +26,11 @@ impl View {
         let total_size = matches.has(&flags::TOTAL_SIZE)?;
         let width = TerminalWidth::deduce(matches, vars)?;
         let file_style = FileStyle::deduce(matches, vars, width.actual_terminal_width().is_some())?;
+        let space_between_columns = SpacingBetweenColumns::deduce(matches)?;
         Ok(Self {
             mode,
             width,
+            space_between_columns,
             file_style,
             deref_links,
             follow_links,
@@ -217,6 +219,28 @@ impl TerminalWidth {
     }
 }
 
+impl SpacingBetweenColumns {
+    fn deduce(matches: &MatchedFlags<'_>) -> Result<Self, OptionsError> {
+        if let Some(space_between) = matches.get(&flags::SPACE_BETWEEN)? {
+            let arg_str = space_between.to_string_lossy();
+            match arg_str.parse() {
+                Ok(0) => Ok(SpacingBetweenColumns::Set(1)),
+                Ok(w) if w > 0 => Ok(SpacingBetweenColumns::Set(w)),
+                Ok(_) => {
+                    let source = NumberSource::Arg(&flags::SPACE_BETWEEN);
+                    Err(OptionsError::NegativeNumber(&flags::SPACE_BETWEEN, source))
+                }
+                Err(e) => {
+                    let source = NumberSource::Arg(&flags::SPACE_BETWEEN);
+                    Err(OptionsError::FailedParse(arg_str.to_string(), source, e))
+                }
+            }
+        } else {
+            Ok(Self::Set(1))
+        }
+    }
+}
+
 impl RowThreshold {
     fn deduce<V: Vars>(vars: &V) -> Result<Self, OptionsError> {
         if let Some(columns) = vars
@@ -247,6 +271,7 @@ impl TableOptions {
         let group_format = GroupFormat::deduce(matches)?;
         let flags_format = FlagsFormat::deduce(vars);
         let columns = Columns::deduce(matches, vars)?;
+        let space_between_columns = SpacingBetweenColumns::deduce(matches)?;
         Ok(Self {
             size_format,
             time_format,
@@ -254,6 +279,7 @@ impl TableOptions {
             group_format,
             flags_format,
             columns,
+            space_between_columns,
         })
     }
 }
