@@ -68,7 +68,8 @@ impl Mode {
             || (flag.matches(&flags::GRID) && matches.has(&flags::LONG)?)
         {
             let _ = matches.has(&flags::LONG)?;
-            let details = details::Options::deduce_long(matches, vars)?;
+            let spacing = SpacingBetweenColumns::deduce(matches)?;
+            let details = details::Options::deduce_long(matches, vars, spacing.spaces())?;
 
             let flag =
                 matches.has_where_any(|f| f.matches(&flags::GRID) || f.matches(&flags::TREE));
@@ -91,7 +92,8 @@ impl Mode {
 
         if flag.matches(&flags::TREE) {
             let _ = matches.has(&flags::TREE)?;
-            let details = details::Options::deduce_tree(matches, vars)?;
+            let spacing = SpacingBetweenColumns::deduce(matches)?;
+            let details = details::Options::deduce_tree(matches, vars, spacing.spaces())?;
             return Ok(Self::Details(details));
         }
 
@@ -156,7 +158,11 @@ impl grid::Options {
 }
 
 impl details::Options {
-    fn deduce_tree<V: Vars>(matches: &MatchedFlags<'_>, vars: &V) -> Result<Self, OptionsError> {
+    fn deduce_tree<V: Vars>(
+        matches: &MatchedFlags<'_>,
+        vars: &V,
+        spacing: usize,
+    ) -> Result<Self, OptionsError> {
         let details = details::Options {
             table: None,
             header: false,
@@ -165,12 +171,17 @@ impl details::Options {
             mounts: matches.has(&flags::MOUNTS)?,
             color_scale: ColorScaleOptions::deduce(matches, vars)?,
             follow_links: matches.has(&flags::FOLLOW_LINKS)?,
+            spacing,
         };
 
         Ok(details)
     }
 
-    fn deduce_long<V: Vars>(matches: &MatchedFlags<'_>, vars: &V) -> Result<Self, OptionsError> {
+    fn deduce_long<V: Vars>(
+        matches: &MatchedFlags<'_>,
+        vars: &V,
+        spacing: usize,
+    ) -> Result<Self, OptionsError> {
         if matches.is_strict() {
             if matches.has(&flags::ACROSS)? && !matches.has(&flags::GRID)? {
                 return Err(OptionsError::Useless(&flags::ACROSS, true, &flags::LONG));
@@ -187,6 +198,7 @@ impl details::Options {
             mounts: matches.has(&flags::MOUNTS)?,
             color_scale: ColorScaleOptions::deduce(matches, vars)?,
             follow_links: matches.has(&flags::FOLLOW_LINKS)?,
+            spacing,
         })
     }
 }
