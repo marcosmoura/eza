@@ -16,7 +16,7 @@ use crate::output::table::{
     Columns, FlagsFormat, GroupFormat, Options as TableOptions, SizeFormat, TimeTypes, UserFormat,
 };
 use crate::output::time::TimeFormat;
-use crate::output::{details, grid, Mode, TerminalWidth, View};
+use crate::output::{details, grid, Mode, SpacingBetweenColumns, TerminalWidth, View};
 
 impl View {
     pub fn deduce<V: Vars>(matches: &MatchedFlags<'_>, vars: &V) -> Result<Self, OptionsError> {
@@ -25,10 +25,12 @@ impl View {
         let follow_links = matches.has(&flags::FOLLOW_LINKS)?;
         let total_size = matches.has(&flags::TOTAL_SIZE)?;
         let width = TerminalWidth::deduce(matches, vars)?;
+        let space_between_columns = SpacingBetweenColumns::deduce(matches)?;
         let file_style = FileStyle::deduce(matches, vars, width.actual_terminal_width().is_some())?;
         Ok(Self {
             mode,
             width,
+            space_between_columns,
             file_style,
             deref_links,
             follow_links,
@@ -56,7 +58,8 @@ impl Mode {
 
         let Some(flag) = flag else {
             Self::strict_check_long_flags(matches)?;
-            let grid = grid::Options::deduce(matches)?;
+            let spacing = SpacingBetweenColumns::deduce(matches)?;
+            let grid = grid::Options::deduce(matches, spacing.spaces())?;
             return Ok(Self::Grid(grid));
         };
 
@@ -97,7 +100,8 @@ impl Mode {
             return Ok(Self::Lines);
         }
 
-        let grid = grid::Options::deduce(matches)?;
+        let spacing = SpacingBetweenColumns::deduce(matches)?;
+        let grid = grid::Options::deduce(matches, spacing.spaces())?;
         Ok(Self::Grid(grid))
     }
 
@@ -141,9 +145,10 @@ impl Mode {
 }
 
 impl grid::Options {
-    fn deduce(matches: &MatchedFlags<'_>) -> Result<Self, OptionsError> {
+    fn deduce(matches: &MatchedFlags<'_>, spacing: usize) -> Result<Self, OptionsError> {
         let grid = grid::Options {
             across: matches.has(&flags::ACROSS)?,
+            spacing,
         };
 
         Ok(grid)
@@ -213,6 +218,34 @@ impl TerminalWidth {
             }
         } else {
             Ok(Self::Automatic)
+        }
+    }
+}
+
+impl SpacingBetweenColumns {
+    fn deduce(matches: &MatchedFlags<'_>) -> Result<Self, OptionsError> {
+        if let Some(spacing) = matches.get(&flags::SPACE_BETWEEN)? {
+            let arg_str = spacing.to_string_lossy();
+            match arg_str.parse::<i32>() {
+                Ok(n) => {
+                    if n < 0 {
+                        Err(OptionsError::NegativeNumber(
+                            &flags::SPACE_BETWEEN,
+                            arg_str.to_string(),
+                        ))
+                    } else if n == 0 {
+                        Ok(Self::Set(1))
+                    } else {
+                        Ok(Self::Set(n as usize))
+                    }
+                }
+                Err(e) => {
+                    let source = NumberSource::Arg(&flags::SPACE_BETWEEN);
+                    Err(OptionsError::FailedParse(arg_str.to_string(), source, e))
+                }
+            }
+        } else {
+            Ok(Self::Set(1))
         }
     }
 }
@@ -552,6 +585,7 @@ mod test {
         &flags::ONE_LINE,
         &flags::TREE,
         &flags::NUMERIC,
+        &flags::SPACE_BETWEEN,
     ];
 
     #[allow(unused_macro_rules)]
@@ -793,5 +827,21 @@ mod test {
         test!(ot:            Mode <- ["--oneline", "--tree"],           None;  Both => like Ok(Mode::Details(_)));
         test!(og:            Mode <- ["--oneline", "--grid"],           None;  Both => like Ok(Mode::Grid(_)));
         test!(tg:            Mode <- ["--tree", "--grid"],              None;  Both => like Ok(Mode::Grid(_)));
+    }
+
+    mod spacing_between_columns {
+        use super::*;
+
+        test!(default:       SpacingBetweenColumns <- [];                                         Both => like Ok(SpacingBetweenColumns::Set(1)));
+        test!(zero:          SpacingBetweenColumns <- ["--space-between-columns", "0"];           Both => like Ok(SpacingBetweenColumns::Set(1)));
+        test!(one:           SpacingBetweenColumns <- ["--space-between-columns", "1"];           Both => like Ok(SpacingBetweenColumns::Set(1)));
+        test!(three:         SpacingBetweenColumns <- ["--space-between-columns", "3"];           Both => like Ok(SpacingBetweenColumns::Set(3)));
+        test!(five:          SpacingBetweenColumns <- ["--space-between-columns", "5"];           Both => like Ok(SpacingBetweenColumns::Set(5)));
+        test!(large:         SpacingBetweenColumns <- ["--space-between-columns", "100"];         Both => like Ok(SpacingBetweenColumns::Set(100)));
+        test!(negative:      SpacingBetweenColumns <- ["--space-between-columns", "-1"];          Both => like Err(OptionsError::NegativeNumber(_, _)));
+        test!(negative_zero: SpacingBetweenColumns <- ["--space-between-columns", "-0"];          Both => like Ok(SpacingBetweenColumns::Set(1)));
+        test!(invalid:       SpacingBetweenColumns <- ["--space-between-columns", "abc"];         Both => like Err(OptionsError::FailedParse(_, _, _)));
+        test!(invalid_float: SpacingBetweenColumns <- ["--space-between-columns", "1.5"];         Both => like Err(OptionsError::FailedParse(_, _, _)));
+        test!(empty:         SpacingBetweenColumns <- ["--space-between-columns", ""];            Both => like Err(OptionsError::FailedParse(_, _, _)));
     }
 }
