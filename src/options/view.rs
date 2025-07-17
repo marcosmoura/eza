@@ -228,15 +228,14 @@ impl SpacingBetweenColumns {
             let arg_str = spacing.to_string_lossy();
             match arg_str.parse::<i32>() {
                 Ok(n) => {
-                    if n < 0 {
-                        Err(OptionsError::NegativeNumber(
+                    use std::cmp::Ordering;
+                    match n.cmp(&0) {
+                        Ordering::Less => Err(OptionsError::NegativeNumber(
                             &flags::SPACE_BETWEEN,
                             arg_str.to_string(),
-                        ))
-                    } else if n == 0 {
-                        Ok(Self::Set(1))
-                    } else {
-                        Ok(Self::Set(n as usize))
+                        )),
+                        Ordering::Equal => Ok(Self::Set(1)),
+                        Ordering::Greater => Ok(Self::Set(n as usize)),
                     }
                 }
                 Err(e) => {
