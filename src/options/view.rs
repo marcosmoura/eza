@@ -29,7 +29,7 @@ impl View {
         let width = TerminalWidth::deduce(matches, vars)?;
         let space_between_columns = SpacingBetweenColumns::deduce(matches)?;
         let file_style = FileStyle::deduce(matches, vars, is_tty)?;
-      
+
         Ok(Self {
             mode,
             width,
@@ -65,14 +65,14 @@ impl Mode {
 
         let Some(flag) = flag else {
             Self::strict_check_long_flags(matches)?;
-            let spacing = SpacingBetweenColumns::deduce(matches)?;
-            let grid = grid::Options::deduce(matches, spacing.spaces(SpacingMode::Grid))?;
 
             if is_tty {
-                let grid = grid::Options::deduce(matches)?;
+                let spacing = SpacingBetweenColumns::deduce(matches)?;
+                let grid = grid::Options::deduce(matches, spacing.spaces(SpacingMode::Grid))?;
+
                 return Ok(Self::Grid(grid));
             }
-          
+
             return Ok(Self::Lines);
         };
 
