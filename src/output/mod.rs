@@ -83,6 +83,26 @@ impl TerminalWidth {
     }
 }
 
+/// The default spacing mode for different view types.
+#[derive(PartialEq, Eq, Debug, Copy, Clone)]
+pub enum SpacingMode {
+    /// Grid mode default (2 spaces)
+    Grid,
+    /// Details/tree mode default (1 space)
+    Details,
+}
+
+impl SpacingMode {
+    /// Get the default number of spaces for this mode.
+    #[must_use]
+    pub fn default_spaces(self) -> usize {
+        match self {
+            Self::Grid => 2,
+            Self::Details => 1,
+        }
+    }
+}
+
 /// The spacing between columns requested by the user.
 #[derive(PartialEq, Eq, Debug, Copy, Clone)]
 pub enum SpacingBetweenColumns {
@@ -94,18 +114,12 @@ pub enum SpacingBetweenColumns {
 
 impl SpacingBetweenColumns {
     /// Get the actual number of spaces to use between columns.
-    /// Takes the mode as a parameter to determine the correct default.
+    /// Takes the spacing mode to determine the correct default.
     #[must_use]
-    pub fn spaces(self, is_grid: bool) -> usize {
+    pub fn spaces(self, mode: SpacingMode) -> usize {
         match self {
             Self::Set(spaces) => spaces,
-            Self::Default => {
-                if is_grid {
-                    2 // Grid mode default
-                } else {
-                    1 // Details/tree mode default
-                }
-            }
+            Self::Default => mode.default_spaces(),
         }
     }
 }

@@ -16,7 +16,7 @@ use crate::output::table::{
     Columns, FlagsFormat, GroupFormat, Options as TableOptions, SizeFormat, TimeTypes, UserFormat,
 };
 use crate::output::time::TimeFormat;
-use crate::output::{details, grid, Mode, SpacingBetweenColumns, TerminalWidth, View};
+use crate::output::{details, grid, Mode, SpacingBetweenColumns, SpacingMode, TerminalWidth, View};
 
 impl View {
     pub fn deduce<V: Vars>(matches: &MatchedFlags<'_>, vars: &V) -> Result<Self, OptionsError> {
@@ -59,7 +59,7 @@ impl Mode {
         let Some(flag) = flag else {
             Self::strict_check_long_flags(matches)?;
             let spacing = SpacingBetweenColumns::deduce(matches)?;
-            let grid = grid::Options::deduce(matches, spacing.spaces(true))?;
+            let grid = grid::Options::deduce(matches, spacing.spaces(SpacingMode::Grid))?;
             return Ok(Self::Grid(grid));
         };
 
@@ -69,7 +69,8 @@ impl Mode {
         {
             let _ = matches.has(&flags::LONG)?;
             let spacing = SpacingBetweenColumns::deduce(matches)?;
-            let details = details::Options::deduce_long(matches, vars, spacing.spaces(false))?;
+            let details =
+                details::Options::deduce_long(matches, vars, spacing.spaces(SpacingMode::Details))?;
 
             let flag =
                 matches.has_where_any(|f| f.matches(&flags::GRID) || f.matches(&flags::TREE));
@@ -93,7 +94,8 @@ impl Mode {
         if flag.matches(&flags::TREE) {
             let _ = matches.has(&flags::TREE)?;
             let spacing = SpacingBetweenColumns::deduce(matches)?;
-            let details = details::Options::deduce_tree(matches, vars, spacing.spaces(false))?;
+            let details =
+                details::Options::deduce_tree(matches, vars, spacing.spaces(SpacingMode::Details))?;
             return Ok(Self::Details(details));
         }
 
@@ -103,7 +105,7 @@ impl Mode {
         }
 
         let spacing = SpacingBetweenColumns::deduce(matches)?;
-        let grid = grid::Options::deduce(matches, spacing.spaces(true))?;
+        let grid = grid::Options::deduce(matches, spacing.spaces(SpacingMode::Grid))?;
         Ok(Self::Grid(grid))
     }
 
