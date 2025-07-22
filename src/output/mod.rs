@@ -88,14 +88,24 @@ impl TerminalWidth {
 pub enum SpacingBetweenColumns {
     /// The user requested this specific number of spaces.
     Set(usize),
+    /// Use the default spacing based on the current mode.
+    Default,
 }
 
 impl SpacingBetweenColumns {
     /// Get the actual number of spaces to use between columns.
+    /// Takes the mode as a parameter to determine the correct default.
     #[must_use]
-    pub fn spaces(self) -> usize {
+    pub fn spaces(self, is_grid: bool) -> usize {
         match self {
             Self::Set(spaces) => spaces,
+            Self::Default => {
+                if is_grid {
+                    2 // Grid mode default
+                } else {
+                    1 // Details/tree mode default
+                }
+            }
         }
     }
 }
